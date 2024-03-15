@@ -1,0 +1,2 @@
+# create
+npm init @qavajs
