@@ -83,10 +83,17 @@ export default async function install(): Promise<void> {
     const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded;
     const isTemplateIncluded: boolean = answers.modules.includes('template');
 
-    // add ts-node package if module system is typescript
+    // add package.json
+    const packageJsonTemplate = await readFile(
+        resolve(__dirname, '../templates/package.json'),
+        'utf-8'
+    );
+    await writeFile(`./package.json`, packageJsonTemplate, 'utf-8');
+    // add ts-node and typescript packages if module system is typescript
     // put tsconfig
     if (isTypescript) {
         requiredDeps.push('ts-node');
+        requiredDeps.push('typescript');
         const tsconfig = await readFile(
             resolve(__dirname, '../templates/tsconfig.json'),
             'utf-8'
