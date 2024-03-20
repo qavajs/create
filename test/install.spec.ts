@@ -30,6 +30,22 @@ vi.mock('yarn-install');
 const fsActual = vi.importActual('node:fs/promises');
 
 const multiline = (lines: Array<string>) => lines.join('\n');
+const packageJson = [
+    './package.json',
+    multiline([
+        '{',
+        '  "name": "qavajs_project",',
+        '  "version": "1.0.0",',
+        '  "description": "qavajs project",',
+        '  "scripts": {',
+        '    "test": "qavajs run"',
+        '  },',
+        '  "dependencies": {}',
+        '}',
+        ''
+    ]),
+    'utf-8'
+]
 
 let prompt: Function;
 beforeEach(async () => {
@@ -57,6 +73,7 @@ test('minimum install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             'config.js',
             multiline([
@@ -147,6 +164,7 @@ test('template install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             'config.js',
             multiline([
@@ -239,6 +257,7 @@ test('wdio install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             './features/qavajs.feature',
             multiline([
@@ -361,6 +380,7 @@ test('wdio with html formatter install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             './features/qavajs.feature',
             multiline([
@@ -484,6 +504,7 @@ test('wdio with console formatter install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             './features/qavajs.feature',
             multiline([
@@ -607,6 +628,7 @@ test('playwright install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             './features/qavajs.feature',
             multiline([
@@ -729,6 +751,7 @@ test('wdio and sql install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             './features/qavajs.feature',
             multiline([
@@ -879,6 +902,7 @@ test('wdio with console formatter install es modules', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             './features/qavajs.feature',
             multiline([
@@ -1003,6 +1027,7 @@ test('wdio with console formatter install typescript', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             './tsconfig.json',
             multiline([
@@ -1112,6 +1137,7 @@ test('wdio with console formatter install typescript', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     'ts-node',
+                    'typescript',
                     '@qavajs/po',
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter',
@@ -1147,6 +1173,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             './tsconfig.json',
             multiline([
@@ -1256,6 +1283,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                     '@qavajs/memory',
                     '@qavajs/cli',
                     'ts-node',
+                    'typescript',
                     '@qavajs/po',
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter',
@@ -1290,6 +1318,7 @@ test('api install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        packageJson,
         [
             './features/qavajsApi.feature',
             multiline([

@@ -7,6 +7,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :rocket: - new feature
 :beetle: - bugfix
 :x: - deprecation
-       
-## 0.1.0
+
+## [0.2.0]
+- :rocket: added typescript to required modules
+- :rocket: added package.json template
+
+## [0.1.0]
 - :rocket: implemented initializer

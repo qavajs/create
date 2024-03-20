@@ -1,0 +1,9 @@
+{
+  "name": "qavajs_project",
+  "version": "1.0.0",
+  "description": "qavajs project",
+  "scripts": {
+    "test": "qavajs run"
+  },
+  "dependencies": {}
+}
