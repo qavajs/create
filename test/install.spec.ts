@@ -133,7 +133,8 @@ test('minimum install', async () => {
                 deps: [
                     '@cucumber/cucumber',
                     '@qavajs/memory',
-                    '@qavajs/cli'
+                    '@qavajs/cli',
+                    '@qavajs/validation'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
