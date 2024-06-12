@@ -226,6 +226,7 @@ test('template install', async () => {
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     '@qavajs/template'
                 ],
                 respectNpm5: true,
@@ -348,6 +349,7 @@ test('wdio install', async () => {
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     '@qavajs/po',
                     '@qavajs/steps-wdio'
                 ],
@@ -471,6 +473,7 @@ test('wdio with html formatter install', async () => {
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     '@qavajs/po',
                     '@qavajs/steps-wdio',
                     '@qavajs/html-formatter'
@@ -595,6 +598,7 @@ test('wdio with console formatter install', async () => {
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     '@qavajs/po',
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter'
@@ -719,6 +723,7 @@ test('playwright install', async () => {
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     '@qavajs/po-playwright',
                     '@qavajs/steps-playwright'
                 ],
@@ -842,6 +847,7 @@ test('wdio and sql install', async () => {
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     '@qavajs/po',
                     '@qavajs/steps-wdio',
                     '@qavajs/steps-sql'
@@ -992,6 +998,7 @@ test('wdio with console formatter install es modules', async () => {
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     '@qavajs/po',
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter',
@@ -1136,6 +1143,7 @@ test('wdio with console formatter install typescript', async () => {
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     'ts-node',
                     'typescript',
                     '@qavajs/po',
@@ -1282,6 +1290,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     'ts-node',
                     'typescript',
                     '@qavajs/po',
@@ -1393,6 +1402,7 @@ test('api install', async () => {
                     '@cucumber/cucumber',
                     '@qavajs/memory',
                     '@qavajs/cli',
+                    '@qavajs/validation',
                     '@qavajs/steps-api'
                 ],
                 respectNpm5: true,

@@ -1,7 +1,8 @@
 export default [
     '@cucumber/cucumber',
     '@qavajs/memory',
-    '@qavajs/cli'
+    '@qavajs/cli',
+    '@qavajs/validation'
 ]
 
 export type ModuleDefinition = {
