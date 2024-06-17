@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.3.0]
+- :rocket: added @qavajs/validation as dependency
+
 ## [0.2.0]
 - :rocket: added typescript to required modules
 - :rocket: added package.json template
