@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { ensureDir } from 'fs-extra';
 import { resolve } from 'path';
 import yarnInstall from 'yarn-install';
@@ -67,7 +67,7 @@ export default async function install(): Promise<void> {
         },
     ]) as Answers;
 
-    const stepsPackages: Array<string> = packages(answers.steps, steps);
+    const stepsPackages: Array<string> = ['@qavajs/steps-memory', ...packages(answers.steps, steps)];
     const formatPackages: Array<string> = packages(answers.formats, format);
     const modulePackages: Array<string> = packages(answers.modules, modules);
     const additionalPackages: Array<string> = packages(answers.additionalModules, additionalModules);
@@ -108,7 +108,7 @@ export default async function install(): Promise<void> {
     const stepDefinitionGlob = `step_definition/*.${isTypescript ? 'ts' : 'js'}`;
     const stepsPackagesGlobs = [...stepsPackages].map(p => `node_modules/${p}/index.js`);
     const config = configEjs({
-        steps: JSON.stringify([stepDefinitionGlob, ...stepsPackagesGlobs]),
+        steps: JSON.stringify([...stepsPackagesGlobs, stepDefinitionGlob]),
         moduleSystem: answers.moduleSystem,
         modules: JSON.stringify(modulePackages),
         format: JSON.stringify(
@@ -209,5 +209,5 @@ export default async function install(): Promise<void> {
     });
 
     console.log('test script:');
-    console.log(`npx qavajs run --config config.${isTypescript ? 'ts' : 'js'}`);
+    console.log(`npx qavajs --config config.${isTypescript ? 'ts' : 'js'}`);
 }

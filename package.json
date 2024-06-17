@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/create",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "initializer of @qavajs project",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "ejs": "^3.1.9",
     "fs-extra": "^11.2.0",
     "inquirer": "^9.2.16",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.5",
     "yarn-install": "^1.0.0"
   },
   "devDependencies": {
@@ -31,7 +31,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.11.28",
-    "@vitest/coverage-v8": "^1.4.0",
-    "vitest": "^1.4.0"
+    "@vitest/coverage-v8": "^1.6.0",
+    "vitest": "^1.6.0"
   }
 }
