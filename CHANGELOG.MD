@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "@qavajs/cli" will be documented in this file.
+All notable changes to the "@qavajs/create" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
@@ -10,6 +10,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.3.0]
 - :rocket: added @qavajs/validation as dependency
+- :rocket: added @qavajs/steps-memory as default module
 
 ## [0.2.0]
 - :rocket: added typescript to required modules
