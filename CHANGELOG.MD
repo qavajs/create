@@ -9,6 +9,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 
 ## [0.3.0]
+- :rocket: added @qavajs/validation as dependency
 - :rocket: added @qavajs/steps-memory as default module
 
 ## [0.2.0]
