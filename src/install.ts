@@ -83,6 +83,13 @@ export default async function install(): Promise<void> {
     const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded;
     const isTemplateIncluded: boolean = answers.modules.includes('template');
 
+    // add .gitignore
+    const gitignoreTemplate = await readFile(
+        resolve(__dirname, '../templates/.gitignore'),
+        'utf-8'
+    );
+    await writeFile(`./.gitignore`, gitignoreTemplate, 'utf-8');
+
     // add package.json
     const packageJsonTemplate = await readFile(
         resolve(__dirname, '../templates/package.json'),
@@ -114,7 +121,7 @@ export default async function install(): Promise<void> {
         format: JSON.stringify(
             format
                 .filter(p => formatPackages.includes(p.packageName))
-                .map(p => p.packageName + (p.out ? `:${p.out}` : ''))
+                .map(p => p.out ? [p.packageName, p.out] : p.packageName)
         ),
         isWdioIncluded,
         isPlaywrightIncluded,

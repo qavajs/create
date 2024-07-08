@@ -45,7 +45,13 @@ const packageJson = [
         ''
     ]),
     'utf-8'
-]
+];
+
+const gitignore = [
+    './.gitignore',
+    'node_modules/',
+    'utf-8'
+];
 
 let prompt: Function;
 beforeEach(async () => {
@@ -73,6 +79,7 @@ test('minimum install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             'config.js',
@@ -166,6 +173,7 @@ test('template install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             'config.js',
@@ -261,6 +269,7 @@ test('wdio install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             './features/qavajs.feature',
@@ -386,6 +395,7 @@ test('wdio with html formatter install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             './features/qavajs.feature',
@@ -420,7 +430,7 @@ test('wdio with html formatter install', async () => {
                 '    paths: ["features/**/*.feature"],',
                 '    require: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-wdio/index.js","step_definition/*.js"],',
                 '    requireModule: [],',
-                '    format: ["@qavajs/html-formatter:report/report.html"],',
+                '    format: [["@qavajs/html-formatter","report/report.html"]],',
                 '    memory: new Memory(),',
                 '    pageObject: new App(),',
                 '    browser: {',
@@ -512,6 +522,7 @@ test('wdio with console formatter install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             './features/qavajs.feature',
@@ -638,6 +649,7 @@ test('playwright install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             './features/qavajs.feature',
@@ -763,6 +775,7 @@ test('wdio and sql install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             './features/qavajs.feature',
@@ -916,6 +929,7 @@ test('wdio with console formatter install es modules', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             './features/qavajs.feature',
@@ -1043,6 +1057,7 @@ test('wdio with console formatter install typescript', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             './tsconfig.json',
@@ -1191,6 +1206,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             './tsconfig.json',
@@ -1338,6 +1354,7 @@ test('api install', async () => {
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
+        gitignore,
         packageJson,
         [
             './features/qavajsApi.feature',

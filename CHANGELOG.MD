@@ -8,6 +8,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.4.0]
+- :rocket: updated formatters to modern syntax
+- :rocket: added .gitignore template
+
 ## [0.3.0]
 - :rocket: added @qavajs/validation as dependency
 - :rocket: added @qavajs/steps-memory as default module

@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/create",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "initializer of @qavajs project",
   "main": "index.js",
   "scripts": {
@@ -20,17 +20,17 @@
   "author": "Alexandr Galichenko",
   "license": "MIT",
   "dependencies": {
-    "ejs": "^3.1.9",
+    "ejs": "^3.1.10",
     "fs-extra": "^11.2.0",
-    "inquirer": "^9.2.16",
-    "typescript": "^5.4.5",
+    "inquirer": "^9.3.4",
+    "typescript": "^5.5.3",
     "yarn-install": "^1.0.0"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.7",
-    "@types/node": "^20.11.28",
+    "@types/node": "^20.14.9",
     "@vitest/coverage-v8": "^1.6.0",
     "vitest": "^1.6.0"
   }
