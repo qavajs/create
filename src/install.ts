@@ -2,20 +2,11 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { ensureDir } from 'fs-extra';
 import { resolve } from 'path';
 import yarnInstall from 'yarn-install';
-import deps, {steps, format, modules, additionalModules, ModuleDefinition} from './deps';
+import deps, { steps, format, modules, additionalModules, ModuleDefinition } from './deps';
 import { compile } from 'ejs';
-const inquirer = import('inquirer').then(m => m.default);
+import { select, checkbox } from '@inquirer/prompts';
 
-type Answers = {
-    steps: Array<string>,
-    formats: Array<string>,
-    modules: Array<string>,
-    additionalModules: Array<string>,
-    parallel: number,
-    moduleSystem: string
-}
-
-const packs = (deps: Array<ModuleDefinition>) => deps.map(({module}) => module);
+const packs = (deps: Array<ModuleDefinition>) => deps.map(({module}) => ({ value: module }));
 const packages = (moduleList: Array<string>, packageMap: Array<ModuleDefinition>): Array<string> => {
     return moduleList
         .map((module: string) => {
@@ -29,43 +20,33 @@ const replaceNewLines = (text: string) => text.replace(/(\r?\n\r?)+/g, '\n');
 
 export default async function install(): Promise<void> {
     const requiredDeps = [...deps];
-    const { prompt } = await inquirer;
-    const answers = await prompt([
-        {
-            type: 'list',
+
+    const answers = {
+        moduleSystem: await select({
             message: 'select module system you want to use:',
-            name: 'moduleSystem',
             choices: [
-                'CommonJS',
-                'ES Modules',
-                'Typescript'
+                { value: 'CommonJS' },
+                { value: 'ES Modules' },
+                { value: 'Typescript' }
             ]
-        },
-        {
-            type: 'checkbox',
+        }),
+        steps: await checkbox({
             message: 'select step packages to install:',
-            name: 'steps',
             choices: packs(steps)
-        },
-        {
-            type: 'checkbox',
-            message: 'select modules to install:',
-            name: 'modules',
-            choices: packs(modules)
-        },
-        {
-            type: 'checkbox',
+        }),
+        formats: await checkbox({
             message: 'select formatters (reporters) to install:',
-            name: 'formats',
             choices: packs(format)
-        },
-        {
-            type: 'checkbox',
+        }),
+        modules: await checkbox({
+            message: 'select modules to install:',
+            choices: packs(modules)
+        }),
+        additionalModules: await checkbox({
             message: 'select additional modules to install:',
-            name: 'additionalModules',
             choices: packs(additionalModules)
-        },
-    ]) as Answers;
+        })
+    };
 
     const stepsPackages: Array<string> = ['@qavajs/steps-memory', ...packages(answers.steps, steps)];
     const formatPackages: Array<string> = packages(answers.formats, format);

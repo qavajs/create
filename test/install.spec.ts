@@ -1,33 +1,33 @@
 import {test, beforeEach, vi, expect} from 'vitest';
 import install from '../src/install';
 import {ensureDir} from 'fs-extra';
-import {readFile, writeFile} from 'node:fs/promises';
+import {writeFile} from 'node:fs/promises';
 // @ts-ignore
 import yarnInstall from 'yarn-install';
+import {select, checkbox} from '@inquirer/prompts';
 
-const inquirer = import('inquirer').then(m => m.default);
-vi.mock('inquirer', () => {
-    return Promise.resolve({
-        default: {
-            prompt: vi.fn()
-        }
-    })
-});
-
-vi.mock('node:fs/promises', () => {
+vi.mock('@inquirer/prompts', () => {
     return {
-        readFile: vi.fn(),
-        writeFile: vi.fn()
+        select: vi.fn(),
+        checkbox: vi.fn()
     }
 });
+
+vi.mock('node:fs/promises', async (importOriginal) => {
+    const mod = await importOriginal<typeof import('node:fs/promises')>();
+    return {
+        writeFile: vi.fn(),
+        readFile: mod.readFile
+    }
+});
+
 vi.mock('fs-extra', () => {
     return {
         ensureDir: vi.fn()
     }
 });
-vi.mock('yarn-install');
 
-const fsActual = vi.importActual('node:fs/promises');
+vi.mock('yarn-install');
 
 const multiline = (lines: Array<string>) => lines.join('\n');
 const packageJson = [
@@ -53,32 +53,24 @@ const gitignore = [
     'utf-8'
 ];
 
-let prompt: Function;
 beforeEach(async () => {
     vi.resetAllMocks();
-    prompt = (await inquirer).prompt;
 });
 test('minimum install', async () => {
-    //@ts-ignore
-    prompt.mockResolvedValue({
-        steps: [],
-        formats: [],
-        modules: [],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(vi.mocked(ensureDir)).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(vi.mocked(writeFile)).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -133,8 +125,7 @@ test('minimum install', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(vi.mocked(yarnInstall)).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -152,27 +143,21 @@ test('minimum install', async () => {
 });
 
 test('template install', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: [],
-        formats: [],
-        modules: ['template'],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce(['template'])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition'],
         ['./templates']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -228,8 +213,7 @@ test('template install', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -248,27 +232,21 @@ test('template install', async () => {
 });
 
 test('wdio install', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['wdio'],
-        formats: [],
-        modules: [],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['wdio'])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition'],
         ['./page_object']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -353,8 +331,7 @@ test('wdio install', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -374,27 +351,21 @@ test('wdio install', async () => {
 });
 
 test('wdio with html formatter install', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['wdio'],
-        formats: ['html'],
-        modules: [],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['wdio'])
+        .mockResolvedValueOnce(['html'])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition'],
         ['./page_object']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -479,8 +450,7 @@ test('wdio with html formatter install', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -501,27 +471,21 @@ test('wdio with html formatter install', async () => {
 });
 
 test('wdio with console formatter install', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['wdio'],
-        formats: ['console'],
-        modules: [],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['wdio'])
+        .mockResolvedValueOnce(['console'])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition'],
         ['./page_object']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -606,8 +570,7 @@ test('wdio with console formatter install', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -628,27 +591,21 @@ test('wdio with console formatter install', async () => {
 });
 
 test('playwright install', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['playwright'],
-        formats: [],
-        modules: [],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['playwright'])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition'],
         ['./page_object']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -733,8 +690,7 @@ test('playwright install', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -754,27 +710,21 @@ test('playwright install', async () => {
 });
 
 test('wdio and sql install', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['wdio', 'sql'],
-        formats: [],
-        modules: [],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['wdio', 'sql'])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition'],
         ['./page_object']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -859,8 +809,7 @@ test('wdio and sql install', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -881,45 +830,34 @@ test('wdio and sql install', async () => {
 });
 
 test('package not found', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['notFound'],
-        formats: [],
-        modules: [],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['notFound'])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
     await expect(install).rejects.toThrow('notFound module is not found');
 });
 
 test('both wdio and playwright selected', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['wdio', 'playwright'],
-        formats: [],
-        modules: [],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['wdio', 'playwright'])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
     await expect(install).rejects.toThrow('Please select only one browser driver');
 });
 
 test('wdio with console formatter install es modules', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['wdio'],
-        formats: ['console'],
-        modules: ['template'],
-        additionalModules: [],
-        moduleSystem: 'ES Modules'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('ES Modules');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['wdio'])
+        .mockResolvedValueOnce(['console'])
+        .mockResolvedValueOnce(['template'])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -927,8 +865,7 @@ test('wdio with console formatter install es modules', async () => {
         ['./page_object'],
         ['./templates']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -1012,8 +949,7 @@ test('wdio with console formatter install es modules', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -1035,19 +971,14 @@ test('wdio with console formatter install es modules', async () => {
 });
 
 test('wdio with console formatter install typescript', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['wdio'],
-        formats: ['console'],
-        modules: ['template'],
-        additionalModules: [],
-        moduleSystem: 'Typescript'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('Typescript');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['wdio'])
+        .mockResolvedValueOnce(['console'])
+        .mockResolvedValueOnce(['template'])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -1055,8 +986,7 @@ test('wdio with console formatter install typescript', async () => {
         ['./page_object'],
         ['./templates']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -1159,8 +1089,7 @@ test('wdio with console formatter install typescript', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -1184,19 +1113,14 @@ test('wdio with console formatter install typescript', async () => {
 });
 
 test('wdio with console formatter and wdio service adapter install typescript', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['wdio'],
-        formats: ['console'],
-        modules: ['template'],
-        additionalModules: ['wdio service adapter'],
-        moduleSystem: 'Typescript'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('Typescript');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['wdio'])
+        .mockResolvedValueOnce(['console'])
+        .mockResolvedValueOnce(['template'])
+        .mockResolvedValueOnce(['wdio service adapter']);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -1204,8 +1128,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
         ['./page_object'],
         ['./templates']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -1308,8 +1231,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
@@ -1334,26 +1256,20 @@ test('wdio with console formatter and wdio service adapter install typescript', 
 });
 
 test('api install', async () => {
-    // @ts-ignore
-    prompt.mockResolvedValue({
-        steps: ['api'],
-        formats: [],
-        modules: [],
-        additionalModules: [],
-        moduleSystem: 'CommonJS'
-    });
-    // @ts-ignore
-    readFile.mockImplementation((await fsActual).readFile);
+    vi.mocked(select).mockResolvedValueOnce('CommonJS');
+    vi.mocked(checkbox)
+        .mockResolvedValueOnce(['api'])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
     await install();
-    // @ts-ignore
-    expect(ensureDir.mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition']
     ]);
-    // @ts-ignore
-    expect(writeFile.mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -1422,8 +1338,7 @@ test('api install', async () => {
             'utf-8'
         ],
     ]);
-    // @ts-ignore
-    expect(yarnInstall.mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
