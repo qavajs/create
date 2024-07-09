@@ -64,13 +64,13 @@ test('minimum install', async () => {
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await install();
-    expect(vi.mocked(vi.mocked(ensureDir)).mock.calls).toEqual([
+    expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition']
     ]);
-    expect(vi.mocked(vi.mocked(writeFile)).mock.calls).toEqual([
+    expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
         packageJson,
         [
@@ -125,7 +125,7 @@ test('minimum install', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(vi.mocked(yarnInstall)).mock.calls).toEqual([
+    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
         [
             {
                 deps: [
