@@ -263,7 +263,7 @@ test('wdio install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/po");',
+                'const { $, $$, Component } = require("@qavajs/steps-wdio/po");',
                 'module.exports = class App {',
                 '  Body = $("body");',
                 '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
@@ -339,7 +339,6 @@ test('wdio install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/po',
                     '@qavajs/steps-memory',
                     '@qavajs/steps-wdio'
                 ],
@@ -382,7 +381,7 @@ test('wdio with html formatter install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/po");',
+                'const { $, $$, Component } = require("@qavajs/steps-wdio/po");',
                 'module.exports = class App {',
                 '  Body = $("body");',
                 '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
@@ -458,7 +457,6 @@ test('wdio with html formatter install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/po',
                     '@qavajs/steps-memory',
                     '@qavajs/steps-wdio',
                     '@qavajs/html-formatter'
@@ -502,7 +500,7 @@ test('wdio with console formatter install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/po");',
+                'const { $, $$, Component } = require("@qavajs/steps-wdio/po");',
                 'module.exports = class App {',
                 '  Body = $("body");',
                 '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
@@ -578,7 +576,6 @@ test('wdio with console formatter install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/po',
                     '@qavajs/steps-memory',
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter'
@@ -622,7 +619,7 @@ test('playwright install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/po-playwright");',
+                'const { $, $$, Component } = require("@qavajs/steps-playwright/po");',
                 'module.exports = class App {',
                 '  Body = $("body");',
                 '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
@@ -698,7 +695,6 @@ test('playwright install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/po-playwright',
                     '@qavajs/steps-memory',
                     '@qavajs/steps-playwright'
                 ],
@@ -741,7 +737,7 @@ test('wdio and sql install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/po");',
+                'const { $, $$, Component } = require("@qavajs/steps-wdio/po");',
                 'module.exports = class App {',
                 '  Body = $("body");',
                 '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
@@ -817,7 +813,6 @@ test('wdio and sql install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/po',
                     '@qavajs/steps-memory',
                     '@qavajs/steps-wdio',
                     '@qavajs/steps-sql'
@@ -882,7 +877,7 @@ test('wdio with console formatter install es modules', async () => {
         [
             './page_object/index.js',
             multiline([
-                'import { $, $$, Component } from "@qavajs/po";',
+                'import { $, $$, Component } from "@qavajs/steps-wdio/po";',
                 'export default class App {',
                 '  Body = $("body");',
                 '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
@@ -957,7 +952,6 @@ test('wdio with console formatter install es modules', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/po',
                     '@qavajs/steps-memory',
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter',
@@ -1022,7 +1016,7 @@ test('wdio with console formatter install typescript', async () => {
         [
             './page_object/index.ts',
             multiline([
-                'import { $, $$, Component } from "@qavajs/po";',
+                'import { $, $$, Component } from "@qavajs/steps-wdio/po";',
                 'export default class App {',
                 '  Body = $("body");',
                 '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
@@ -1099,7 +1093,6 @@ test('wdio with console formatter install typescript', async () => {
                     '@qavajs/validation',
                     'ts-node',
                     'typescript',
-                    '@qavajs/po',
                     '@qavajs/steps-memory',
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter',
@@ -1164,7 +1157,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
         [
             './page_object/index.ts',
             multiline([
-                'import { $, $$, Component } from "@qavajs/po";',
+                'import { $, $$, Component } from "@qavajs/steps-wdio/po";',
                 'export default class App {',
                 '  Body = $("body");',
                 '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
@@ -1241,7 +1234,6 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                     '@qavajs/validation',
                     'ts-node',
                     'typescript',
-                    '@qavajs/po',
                     '@qavajs/steps-memory',
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter',

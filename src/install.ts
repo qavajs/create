@@ -116,10 +116,9 @@ export default async function install(): Promise<void> {
 
     if (isPOIncluded) {
         let poModule: string | undefined;
-        if (isWdioIncluded) poModule = '@qavajs/po';
-        if (isPlaywrightIncluded) poModule = '@qavajs/po-playwright';
+        if (isWdioIncluded) poModule = '@qavajs/steps-wdio/po';
+        if (isPlaywrightIncluded) poModule = '@qavajs/steps-playwright/po';
         if (!poModule) throw new Error('No PO module');
-        requiredDeps.push(poModule);
         const featureTemplate: string = await readFile(
             resolve(__dirname, '../templates/feature.ejs'),
             'utf-8'
