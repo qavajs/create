@@ -12,6 +12,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - :rocket: updated formatters to modern syntax
 - :rocket: added .gitignore template
 - :rocket: migrated to @inquirer/prompts
+- :rocket: updated wizard to support built-in po
 
 ## [0.3.0]
 - :rocket: added @qavajs/validation as dependency
