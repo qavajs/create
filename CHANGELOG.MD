@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.4.1]
+- :beetle: fixed issue with gitignore template
+
 ## [0.4.0]
 - :rocket: updated formatters to modern syntax
 - :rocket: added .gitignore template
