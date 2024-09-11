@@ -64,9 +64,9 @@ export default async function install(): Promise<void> {
     const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded;
     const isTemplateIncluded: boolean = answers.modules.includes('template');
 
-    // add .gitignore
+    // add gitignore
     const gitignoreTemplate = await readFile(
-        resolve(__dirname, '../templates/.gitignore'),
+        resolve(__dirname, '../templates/gitignore'),
         'utf-8'
     );
     await writeFile(`./.gitignore`, gitignoreTemplate, 'utf-8');
