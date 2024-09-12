@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.4.2]
+- :beetle: fixed default UI scenario
+
 ## [0.4.1]
 - :beetle: fixed issue with gitignore template
 
