@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/create",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "initializer of @qavajs project",
   "main": "index.js",
   "scripts": {

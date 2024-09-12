@@ -255,7 +255,7 @@ test('wdio install', async () => {
                 'Feature: qavajs framework',
                 '  Scenario: Open qavajs docs',
                 '    Given I open \'https://qavajs.github.io/\' url',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '    Then I expect text of \'Body\' to contain \'qavajs\'',
                 '',
             ]),
             'utf-8'
@@ -373,7 +373,7 @@ test('wdio with html formatter install', async () => {
                 'Feature: qavajs framework',
                 '  Scenario: Open qavajs docs',
                 '    Given I open \'https://qavajs.github.io/\' url',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '    Then I expect text of \'Body\' to contain \'qavajs\'',
                 '',
             ]),
             'utf-8'
@@ -492,7 +492,7 @@ test('wdio with console formatter install', async () => {
                 'Feature: qavajs framework',
                 '  Scenario: Open qavajs docs',
                 '    Given I open \'https://qavajs.github.io/\' url',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '    Then I expect text of \'Body\' to contain \'qavajs\'',
                 '',
             ]),
             'utf-8'
@@ -611,7 +611,7 @@ test('playwright install', async () => {
                 'Feature: qavajs framework',
                 '  Scenario: Open qavajs docs',
                 '    Given I open \'https://qavajs.github.io/\' url',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '    Then I expect text of \'Body\' to contain \'qavajs\'',
                 '',
             ]),
             'utf-8'
@@ -729,7 +729,7 @@ test('wdio and sql install', async () => {
                 'Feature: qavajs framework',
                 '  Scenario: Open qavajs docs',
                 '    Given I open \'https://qavajs.github.io/\' url',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '    Then I expect text of \'Body\' to contain \'qavajs\'',
                 '',
             ]),
             'utf-8'
@@ -869,7 +869,7 @@ test('wdio with console formatter install es modules', async () => {
                 'Feature: qavajs framework',
                 '  Scenario: Open qavajs docs',
                 '    Given I open \'https://qavajs.github.io/\' url',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '    Then I expect text of \'Body\' to contain \'qavajs\'',
                 '',
             ]),
             'utf-8'
@@ -1008,7 +1008,7 @@ test('wdio with console formatter install typescript', async () => {
                 'Feature: qavajs framework',
                 '  Scenario: Open qavajs docs',
                 '    Given I open \'https://qavajs.github.io/\' url',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '    Then I expect text of \'Body\' to contain \'qavajs\'',
                 '',
             ]),
             'utf-8'
@@ -1149,7 +1149,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 'Feature: qavajs framework',
                 '  Scenario: Open qavajs docs',
                 '    Given I open \'https://qavajs.github.io/\' url',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '    Then I expect text of \'Body\' to contain \'qavajs\'',
                 '',
             ]),
             'utf-8'
