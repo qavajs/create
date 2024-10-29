@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [1.0.0]
+- :rocket: release
+
 ## [0.4.2]
 - :beetle: fixed default UI scenario
 
