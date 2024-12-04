@@ -130,10 +130,8 @@ test('minimum install', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
-                    '@qavajs/steps-memory'
+                    '@qavajs/core@2',
+                    '@qavajs/steps-memory@2'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
@@ -218,10 +216,8 @@ test('template install', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
-                    '@qavajs/steps-memory',
+                    '@qavajs/core@2',
+                    '@qavajs/steps-memory@2',
                     '@qavajs/template'
                 ],
                 respectNpm5: true,
@@ -263,10 +259,10 @@ test('wdio install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/steps-wdio/po");',
+                'const { locator } = require("@qavajs/steps-wdio/po");',
                 'module.exports = class App {',
-                '  Body = $("body");',
-                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '  Body = locator("body");',
+                '  GetStartedButton = locator("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -284,7 +280,7 @@ test('wdio install', async () => {
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    pageObject: new App(),',
+                '    pageObject: App,',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chrome"',
@@ -336,11 +332,9 @@ test('wdio install', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio'
+                    '@qavajs/core@2',
+                    '@qavajs/steps-memory@2',
+                    '@qavajs/steps-wdio@2'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
@@ -381,10 +375,10 @@ test('wdio with html formatter install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/steps-wdio/po");',
+                'const { locator } = require("@qavajs/steps-wdio/po");',
                 'module.exports = class App {',
-                '  Body = $("body");',
-                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '  Body = locator("body");',
+                '  GetStartedButton = locator("a.button[href=\'/docs/intro\']");',
                 '}',
                 ''
             ]),
@@ -402,7 +396,7 @@ test('wdio with html formatter install', async () => {
                 '    requireModule: [],',
                 '    format: [["@qavajs/html-formatter","report/report.html"]],',
                 '    memory: new Memory(),',
-                '    pageObject: new App(),',
+                '    pageObject: App,',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chrome"',
@@ -454,11 +448,9 @@ test('wdio with html formatter install', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/core@2',
+                    '@qavajs/steps-memory@2',
+                    '@qavajs/steps-wdio@2',
                     '@qavajs/html-formatter'
                 ],
                 respectNpm5: true,
@@ -500,10 +492,10 @@ test('wdio with console formatter install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/steps-wdio/po");',
+                'const { locator } = require("@qavajs/steps-wdio/po");',
                 'module.exports = class App {',
-                '  Body = $("body");',
-                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '  Body = locator("body");',
+                '  GetStartedButton = locator("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -521,7 +513,7 @@ test('wdio with console formatter install', async () => {
                 '    requireModule: [],',
                 '    format: ["@qavajs/console-formatter"],',
                 '    memory: new Memory(),',
-                '    pageObject: new App(),',
+                '    pageObject: App,',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chrome"',
@@ -573,11 +565,9 @@ test('wdio with console formatter install', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/core@2',
+                    '@qavajs/steps-memory@2',
+                    '@qavajs/steps-wdio@2',
                     '@qavajs/console-formatter'
                 ],
                 respectNpm5: true,
@@ -619,10 +609,10 @@ test('playwright install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/steps-playwright/po");',
+                'const { locator } = require("@qavajs/steps-playwright/po");',
                 'module.exports = class App {',
-                '  Body = $("body");',
-                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '  Body = locator("body");',
+                '  GetStartedButton = locator("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -640,7 +630,7 @@ test('playwright install', async () => {
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    pageObject: new App(),',
+                '    pageObject: App,',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chromium"',
@@ -692,11 +682,9 @@ test('playwright install', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-playwright'
+                    '@qavajs/core@2',
+                    '@qavajs/steps-memory@2',
+                    '@qavajs/steps-playwright@2'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
@@ -737,10 +725,10 @@ test('wdio and sql install', async () => {
         [
             './page_object/index.js',
             multiline([
-                'const { $, $$, Component } = require("@qavajs/steps-wdio/po");',
+                'const { locator } = require("@qavajs/steps-wdio/po");',
                 'module.exports = class App {',
-                '  Body = $("body");',
-                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '  Body = locator("body");',
+                '  GetStartedButton = locator("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -758,7 +746,7 @@ test('wdio and sql install', async () => {
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    pageObject: new App(),',
+                '    pageObject: App,',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chrome"',
@@ -810,12 +798,10 @@ test('wdio and sql install', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
-                    '@qavajs/steps-sql'
+                    '@qavajs/core@2',
+                    '@qavajs/steps-memory@2',
+                    '@qavajs/steps-wdio@2',
+                    '@qavajs/steps-sql@2'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
@@ -877,10 +863,10 @@ test('wdio with console formatter install es modules', async () => {
         [
             './page_object/index.js',
             multiline([
-                'import { $, $$, Component } from "@qavajs/steps-wdio/po";',
+                'import { locator } from "@qavajs/steps-wdio/po";',
                 'export default class App {',
-                '  Body = $("body");',
-                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '  Body = locator("body");',
+                '  GetStartedButton = locator("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -897,7 +883,7 @@ test('wdio with console formatter install es modules', async () => {
                 '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
-                '  pageObject: new App(),',
+                '  pageObject: App,',
                 '  browser: {',
                 '    capabilities: {',
                 '      browserName: "chrome"',
@@ -949,11 +935,9 @@ test('wdio with console formatter install es modules', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/core@2',
+                    '@qavajs/steps-memory@2',
+                    '@qavajs/steps-wdio@2',
                     '@qavajs/console-formatter',
                     '@qavajs/template'
                 ],
@@ -1016,10 +1000,10 @@ test('wdio with console formatter install typescript', async () => {
         [
             './page_object/index.ts',
             multiline([
-                'import { $, $$, Component } from "@qavajs/steps-wdio/po";',
+                'import { locator } from "@qavajs/steps-wdio/po";',
                 'export default class App {',
-                '  Body = $("body");',
-                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '  Body = locator("body");',
+                '  GetStartedButton = locator("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -1036,7 +1020,7 @@ test('wdio with console formatter install typescript', async () => {
                 '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
-                '  pageObject: new App(),',
+                '  pageObject: App,',
                 '  browser: {',
                 '    capabilities: {',
                 '      browserName: "chrome"',
@@ -1088,13 +1072,11 @@ test('wdio with console formatter install typescript', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
+                    '@qavajs/core@2',
                     'ts-node',
                     'typescript',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/steps-memory@2',
+                    '@qavajs/steps-wdio@2',
                     '@qavajs/console-formatter',
                     '@qavajs/template'
                 ],
@@ -1157,10 +1139,10 @@ test('wdio with console formatter and wdio service adapter install typescript', 
         [
             './page_object/index.ts',
             multiline([
-                'import { $, $$, Component } from "@qavajs/steps-wdio/po";',
+                'import { locator } from "@qavajs/steps-wdio/po";',
                 'export default class App {',
-                '  Body = $("body");',
-                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '  Body = locator("body");',
+                '  GetStartedButton = locator("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -1177,7 +1159,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
-                '  pageObject: new App(),',
+                '  pageObject: App,',
                 '  browser: {',
                 '    capabilities: {',
                 '      browserName: "chrome"',
@@ -1229,13 +1211,11 @@ test('wdio with console formatter and wdio service adapter install typescript', 
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
+                    '@qavajs/core@2',
                     'ts-node',
                     'typescript',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/steps-memory@2',
+                    '@qavajs/steps-wdio@2',
                     '@qavajs/console-formatter',
                     '@qavajs/template',
                     '@qavajs/wdio-service-adapter'
@@ -1335,11 +1315,9 @@ test('api install', async () => {
             {
                 deps: [
                     '@cucumber/cucumber',
-                    '@qavajs/memory',
-                    '@qavajs/cli',
-                    '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-api'
+                    '@qavajs/core@2',
+                    '@qavajs/steps-memory@2',
+                    '@qavajs/steps-api@2'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),

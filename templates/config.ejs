@@ -11,7 +11,7 @@
 <%-`    format: `%><%-format%>,
 <%-`    memory: new Memory()`%>,
 <% if (isPlaywrightIncluded || isWdioIncluded) {%>
-<%-`    pageObject: new App()`%>,
+<%-`    pageObject: App`%>,
 <%-`    browser: {`%>
 <%-`      capabilities: {`%>
 <%-`        browserName: `%><% if (isWdioIncluded) {%><%-'"chrome"'%><%} else {%><%-'"chromium"'%><%}%>
@@ -36,7 +36,7 @@
 <%-`  format: `%><%-format%>,
 <%-`  memory: new Memory()`%>,
 <% if (isPlaywrightIncluded || isWdioIncluded) {%>
-<%-`  pageObject: new App()`%>,
+<%-`  pageObject: App`%>,
 <%-`  browser: {`%>
 <%-`    capabilities: {`%>
 <%-`      browserName: `%><% if (isWdioIncluded) {%><%-'"chrome"'%><%} else {%><%-'"chromium"'%><%}%>

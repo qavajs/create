@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { ensureDir } from 'fs-extra';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import yarnInstall from 'yarn-install';
 import deps, { steps, format, modules, additionalModules, ModuleDefinition } from './deps';
 import { compile } from 'ejs';
@@ -12,7 +12,15 @@ const packages = (moduleList: Array<string>, packageMap: Array<ModuleDefinition>
         .map((module: string) => {
             const pkg = packageMap.find((p: ModuleDefinition) => p.module === module);
             if (!pkg) throw new Error(`${module} module is not found`);
-            return pkg.packageName
+            return pkg.version ? `${pkg.packageName}@${pkg.version}` : pkg.packageName;
+        }) as Array<string>
+}
+const requireGlob = (moduleList: Array<string>, packageMap: Array<ModuleDefinition>): Array<string> => {
+    return moduleList
+        .map((module: string) => {
+            const pkg = packageMap.find((p: ModuleDefinition) => p.module === module);
+            if (!pkg) throw new Error(`${module} module is not found`);
+            return `node_modules/${pkg.packageName}/index.js`;
         }) as Array<string>
 }
 
@@ -48,7 +56,7 @@ export default async function install(): Promise<void> {
         })
     };
 
-    const stepsPackages: Array<string> = ['@qavajs/steps-memory', ...packages(answers.steps, steps)];
+    const stepsPackages: Array<string> = ['@qavajs/steps-memory@2', ...packages(answers.steps, steps)];
     const formatPackages: Array<string> = packages(answers.formats, format);
     const modulePackages: Array<string> = packages(answers.modules, modules);
     const additionalPackages: Array<string> = packages(answers.additionalModules, additionalModules);
@@ -94,7 +102,7 @@ export default async function install(): Promise<void> {
     );
     const configEjs = compile(configTemplate);
     const stepDefinitionGlob = `step_definition/*.${isTypescript ? 'ts' : 'js'}`;
-    const stepsPackagesGlobs = [...stepsPackages].map(p => `node_modules/${p}/index.js`);
+    const stepsPackagesGlobs = ['node_modules/@qavajs/steps-memory/index.js', ...requireGlob(answers.steps, steps)];
     const config = configEjs({
         steps: JSON.stringify([...stepsPackagesGlobs, stepDefinitionGlob]),
         moduleSystem: answers.moduleSystem,

@@ -1,9 +1,9 @@
 <% if (moduleSystem === 'ES Modules' || moduleSystem === 'Typescript') {-%>
-<%-'import { $, $$, Component } from "'-%><%-poModule%>";
+<%-'import { locator } from "'-%><%-poModule%>";
 <%} else {-%>
-<%-'const { $, $$, Component } = require('%>"<%-poModule%>");
+<%-'const { locator } = require('%>"<%-poModule%>");
 <%}%>
 <% if (moduleSystem === 'ES Modules' || moduleSystem === 'Typescript') {-%><%-'export default '%><%} else {%><%-'module.exports = '%><%}%>class App {
-  Body = $("body");
-  GetStartedButton = $("a.button[href='/docs/intro']");
+  Body = locator("body");
+  GetStartedButton = locator("a.button[href='/docs/intro']");
 }
