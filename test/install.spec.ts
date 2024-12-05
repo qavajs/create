@@ -133,7 +133,7 @@ test('minimum install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/steps-memory'
+                    '@qavajs/steps-memory@1'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
@@ -221,7 +221,7 @@ test('template install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/steps-memory',
+                    '@qavajs/steps-memory@1',
                     '@qavajs/template'
                 ],
                 respectNpm5: true,
@@ -339,8 +339,8 @@ test('wdio install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio'
+                    '@qavajs/steps-memory@1',
+                    '@qavajs/steps-wdio@1'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
@@ -457,8 +457,8 @@ test('wdio with html formatter install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/steps-memory@1',
+                    '@qavajs/steps-wdio@1',
                     '@qavajs/html-formatter'
                 ],
                 respectNpm5: true,
@@ -576,8 +576,8 @@ test('wdio with console formatter install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/steps-memory@1',
+                    '@qavajs/steps-wdio@1',
                     '@qavajs/console-formatter'
                 ],
                 respectNpm5: true,
@@ -695,8 +695,8 @@ test('playwright install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-playwright'
+                    '@qavajs/steps-memory@1',
+                    '@qavajs/steps-playwright@1'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
@@ -813,9 +813,9 @@ test('wdio and sql install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
-                    '@qavajs/steps-sql'
+                    '@qavajs/steps-memory@1',
+                    '@qavajs/steps-wdio@1',
+                    '@qavajs/steps-sql@1'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
@@ -952,8 +952,8 @@ test('wdio with console formatter install es modules', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/steps-memory@1',
+                    '@qavajs/steps-wdio@1',
                     '@qavajs/console-formatter',
                     '@qavajs/template'
                 ],
@@ -1093,8 +1093,8 @@ test('wdio with console formatter install typescript', async () => {
                     '@qavajs/validation',
                     'ts-node',
                     'typescript',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/steps-memory@1',
+                    '@qavajs/steps-wdio@1',
                     '@qavajs/console-formatter',
                     '@qavajs/template'
                 ],
@@ -1234,8 +1234,8 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                     '@qavajs/validation',
                     'ts-node',
                     'typescript',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-wdio',
+                    '@qavajs/steps-memory@1',
+                    '@qavajs/steps-wdio@1',
                     '@qavajs/console-formatter',
                     '@qavajs/template',
                     '@qavajs/wdio-service-adapter'
@@ -1338,8 +1338,8 @@ test('api install', async () => {
                     '@qavajs/memory',
                     '@qavajs/cli',
                     '@qavajs/validation',
-                    '@qavajs/steps-memory',
-                    '@qavajs/steps-api'
+                    '@qavajs/steps-memory@1',
+                    '@qavajs/steps-api@1'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),
