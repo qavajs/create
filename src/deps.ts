@@ -8,18 +8,20 @@ export default [
 export type ModuleDefinition = {
     module: string,
     packageName: string,
-    out?: string
+    out?: string,
+    version?: string
 }
 
 export const steps: Array<ModuleDefinition> = [
-    { module: 'playwright', packageName: '@qavajs/steps-playwright' },
-    { module: 'wdio', packageName: '@qavajs/steps-wdio' },
-    { module: 'api', packageName: '@qavajs/steps-api' },
-    { module: 'files', packageName: '@qavajs/steps-files' },
-    { module: 'sql', packageName: '@qavajs/steps-sql' },
-    { module: 'accessibility', packageName: '@qavajs/steps-accessibility' },
-    { module: 'lighthouse', packageName: '@qavajs/steps-lighthouse' },
-    { module: 'visual testing', packageName: '@qavajs/steps-visual-testing' }
+    { module: 'playwright', packageName: '@qavajs/steps-playwright', version: '1' },
+    { module: 'wdio', packageName: '@qavajs/steps-wdio', version: '1' },
+    { module: 'api', packageName: '@qavajs/steps-api', version: '1' },
+    { module: 'files', packageName: '@qavajs/steps-files', version: '1' },
+    { module: 'sql', packageName: '@qavajs/steps-sql', version: '1' },
+    { module: 'accessibility', packageName: '@qavajs/steps-accessibility', version: '1' },
+    { module: 'lighthouse', packageName: '@qavajs/steps-lighthouse', version: '1' },
+    { module: 'visual testing', packageName: '@qavajs/steps-visual-testing', version: '1' },
+    { module: 'memory', packageName: '@qavajs/steps-memory', version: '1' }
 ]
 
 export const format: Array<ModuleDefinition> = [
