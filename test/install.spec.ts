@@ -2,9 +2,8 @@ import {test, beforeEach, vi, expect} from 'vitest';
 import install from '../src/install';
 import {ensureDir} from 'fs-extra';
 import {writeFile} from 'node:fs/promises';
-// @ts-ignore
-import yarnInstall from 'yarn-install';
 import {select, checkbox} from '@inquirer/prompts';
+import {execSync} from "node:child_process";
 
 vi.mock('@inquirer/prompts', () => {
     return {
@@ -27,7 +26,11 @@ vi.mock('fs-extra', () => {
     }
 });
 
-vi.mock('yarn-install');
+vi.mock('node:child_process', () => {
+    return {
+        execSync: vi.fn()
+    }
+});
 
 const multiline = (lines: Array<string>) => lines.join('\n');
 const packageJson = [
@@ -125,15 +128,14 @@ test('minimum install', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                '@qavajs/steps-memory@2'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    '@qavajs/steps-memory@2'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -211,16 +213,15 @@ test('template install', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                '@qavajs/steps-memory@2',
+                '@qavajs/template'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/template'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -280,7 +281,7 @@ test('wdio install', async () => {
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    pageObject: App,',
+                '    pageObject: new App(),',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chrome"',
@@ -327,16 +328,15 @@ test('wdio install', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                '@qavajs/steps-memory@2',
+                '@qavajs/steps-wdio@2'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/steps-wdio@2'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -396,7 +396,7 @@ test('wdio with html formatter install', async () => {
                 '    requireModule: [],',
                 '    format: [["@qavajs/html-formatter","report/report.html"]],',
                 '    memory: new Memory(),',
-                '    pageObject: App,',
+                '    pageObject: new App(),',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chrome"',
@@ -443,17 +443,16 @@ test('wdio with html formatter install', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                '@qavajs/steps-memory@2',
+                '@qavajs/steps-wdio@2',
+                '@qavajs/html-formatter'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/steps-wdio@2',
-                    '@qavajs/html-formatter'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -513,7 +512,7 @@ test('wdio with console formatter install', async () => {
                 '    requireModule: [],',
                 '    format: ["@qavajs/console-formatter"],',
                 '    memory: new Memory(),',
-                '    pageObject: App,',
+                '    pageObject: new App(),',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chrome"',
@@ -560,17 +559,16 @@ test('wdio with console formatter install', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                '@qavajs/steps-memory@2',
+                '@qavajs/steps-wdio@2',
+                '@qavajs/console-formatter'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/steps-wdio@2',
-                    '@qavajs/console-formatter'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -630,7 +628,7 @@ test('playwright install', async () => {
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    pageObject: App,',
+                '    pageObject: new App(),',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chromium"',
@@ -677,16 +675,15 @@ test('playwright install', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                '@qavajs/steps-memory@2',
+                '@qavajs/steps-playwright@2'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/steps-playwright@2'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -746,7 +743,7 @@ test('wdio and sql install', async () => {
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    pageObject: App,',
+                '    pageObject: new App(),',
                 '    browser: {',
                 '      capabilities: {',
                 '        browserName: "chrome"',
@@ -793,17 +790,16 @@ test('wdio and sql install', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                '@qavajs/steps-memory@2',
+                '@qavajs/steps-wdio@2',
+                '@qavajs/steps-sql@2'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/steps-wdio@2',
-                    '@qavajs/steps-sql@2'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -883,7 +879,7 @@ test('wdio with console formatter install es modules', async () => {
                 '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
-                '  pageObject: App,',
+                '  pageObject: new App(),',
                 '  browser: {',
                 '    capabilities: {',
                 '      browserName: "chrome"',
@@ -930,18 +926,17 @@ test('wdio with console formatter install es modules', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                '@qavajs/steps-memory@2',
+                '@qavajs/steps-wdio@2',
+                '@qavajs/console-formatter',
+                '@qavajs/template'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/steps-wdio@2',
-                    '@qavajs/console-formatter',
-                    '@qavajs/template'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -1020,7 +1015,7 @@ test('wdio with console formatter install typescript', async () => {
                 '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
-                '  pageObject: App,',
+                '  pageObject: new App(),',
                 '  browser: {',
                 '    capabilities: {',
                 '      browserName: "chrome"',
@@ -1067,20 +1062,19 @@ test('wdio with console formatter install typescript', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                'ts-node',
+                'typescript',
+                '@qavajs/steps-memory@2',
+                '@qavajs/steps-wdio@2',
+                '@qavajs/console-formatter',
+                '@qavajs/template'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    'ts-node',
-                    'typescript',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/steps-wdio@2',
-                    '@qavajs/console-formatter',
-                    '@qavajs/template'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -1159,7 +1153,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
-                '  pageObject: App,',
+                '  pageObject: new App(),',
                 '  browser: {',
                 '    capabilities: {',
                 '      browserName: "chrome"',
@@ -1206,21 +1200,20 @@ test('wdio with console formatter and wdio service adapter install typescript', 
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                'ts-node',
+                'typescript',
+                '@qavajs/steps-memory@2',
+                '@qavajs/steps-wdio@2',
+                '@qavajs/console-formatter',
+                '@qavajs/template',
+                '@qavajs/wdio-service-adapter'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    'ts-node',
-                    'typescript',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/steps-wdio@2',
-                    '@qavajs/console-formatter',
-                    '@qavajs/template',
-                    '@qavajs/wdio-service-adapter'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
@@ -1310,16 +1303,15 @@ test('api install', async () => {
             'utf-8'
         ],
     ]);
-    expect(vi.mocked(yarnInstall).mock.calls).toEqual([
+    expect(vi.mocked(execSync).mock.calls).toEqual([
         [
+            'npm install ' + [
+                '@cucumber/cucumber',
+                '@qavajs/core@2',
+                '@qavajs/steps-memory@2',
+                '@qavajs/steps-api@2'
+            ].join(' '),
             {
-                deps: [
-                    '@cucumber/cucumber',
-                    '@qavajs/core@2',
-                    '@qavajs/steps-memory@2',
-                    '@qavajs/steps-api@2'
-                ],
-                respectNpm5: true,
                 cwd: process.cwd(),
             }
         ]
