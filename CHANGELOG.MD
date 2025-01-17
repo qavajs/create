@@ -8,6 +8,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [2.1.0]
+- :rocket: removed yarn-install dependency
+
+## [2.0.0]
+- :rocket: release v2
+
 ## [1.0.0]
 - :rocket: release
 
