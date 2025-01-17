@@ -1,7 +1,13 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { ensureDir } from 'fs-extra';
 import { resolve } from 'node:path';
-import yarnInstall from 'yarn-install';
+import { execSync } from 'node:child_process';
+
+function installModules({ deps, cwd }: { deps: any[], cwd: string }) {
+    const modules = deps.join(' ');
+    execSync(`npm install ${modules}`, { cwd });
+}
+
 import deps, { steps, format, modules, additionalModules, ModuleDefinition } from './deps';
 import { compile } from 'ejs';
 import { select, checkbox } from '@inquirer/prompts';
@@ -197,10 +203,9 @@ export default async function install(): Promise<void> {
     console.log('installing packages...');
     console.log(modulesToInstall);
 
-    yarnInstall({
+    installModules({
         deps: modulesToInstall,
-        cwd: process.cwd(),
-        respectNpm5: true
+        cwd: process.cwd()
     });
 
     console.log('test script:');
