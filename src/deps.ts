@@ -16,9 +16,10 @@ export const steps: Array<ModuleDefinition> = [
     { module: 'api', packageName: '@qavajs/steps-api', version: '2' },
     { module: 'files', packageName: '@qavajs/steps-files', version: '2' },
     { module: 'sql', packageName: '@qavajs/steps-sql', version: '2' },
-    { module: 'accessibility', packageName: '@qavajs/steps-accessibility', version: '2' },
     { module: 'lighthouse', packageName: '@qavajs/steps-lighthouse', version: '2'},
-    { module: 'visual testing', packageName: '@qavajs/steps-visual-testing', version: '2' }
+    { module: 'visual testing', packageName: '@qavajs/steps-visual-testing', version: '2' },
+    { module: 'accessibility (axe)', packageName: '@qavajs/steps-accessibility' },
+    { module: 'accessibility (equal access)', packageName: '@qavajs/steps-accessibility-ea' },
 ]
 
 export const format: Array<ModuleDefinition> = [
@@ -27,14 +28,3 @@ export const format: Array<ModuleDefinition> = [
     { module: 'html', packageName: '@qavajs/html-formatter', out: 'report/report.html' },
     { module: 'jira xray', packageName: '@qavajs/xray-formatter', out: 'report/xray.out' },
 ]
-
-export const modules: Array<ModuleDefinition> = [
-    { module: 'template', packageName: '@qavajs/template' },
-    { module: 'soft-assertion', packageName: '@qavajs/soft-assertion' },
-]
-
-export const additionalModules: Array<ModuleDefinition> = [
-    { module: 'wdio service adapter', packageName: '@qavajs/wdio-service-adapter' },
-    { module: 'webstorm adapter', packageName: '@qavajs/webstorm-adapter' },
-]
-

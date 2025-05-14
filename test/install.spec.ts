@@ -3,7 +3,7 @@ import install from '../src/install';
 import {ensureDir} from 'fs-extra';
 import {writeFile} from 'node:fs/promises';
 import {select, checkbox} from '@inquirer/prompts';
-import {execSync} from "node:child_process";
+import {execSync} from 'node:child_process';
 
 vi.mock('@inquirer/prompts', () => {
     return {
@@ -84,7 +84,6 @@ test('minimum install', async () => {
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
                 '    require: ["node_modules/@qavajs/steps-memory/index.js","step_definition/*.js"],',
-                '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
                 '  }',
@@ -134,92 +133,6 @@ test('minimum install', async () => {
                 '@cucumber/cucumber',
                 '@qavajs/core@2',
                 '@qavajs/steps-memory@2'
-            ].join(' '),
-            {
-                cwd: process.cwd(),
-            }
-        ]
-    ])
-});
-
-test('template install', async () => {
-    vi.mocked(select).mockResolvedValueOnce('CommonJS');
-    vi.mocked(checkbox)
-        .mockResolvedValueOnce([])
-        .mockResolvedValueOnce([])
-        .mockResolvedValueOnce(['template'])
-        .mockResolvedValueOnce([]);
-    await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition'],
-        ['./templates']
-    ]);
-    expect(vi.mocked(writeFile).mock.calls).toEqual([
-        gitignore,
-        packageJson,
-        [
-            'config.js',
-            multiline([
-                'const Memory = require("./memory");',
-                'module.exports = {',
-                '  default: {',
-                '    paths: ["features/**/*.feature"],',
-                '    require: ["node_modules/@qavajs/steps-memory/index.js","step_definition/*.js"],',
-                '    requireModule: ["@qavajs/template"],',
-                '    format: [],',
-                '    memory: new Memory(),',
-                '    templates: ["templates/*.feature"],',
-                '  }',
-                '}',
-                ''
-            ]),
-            'utf-8'
-        ],
-        [
-            './memory/index.js',
-            multiline([
-                'module.exports = class Constants {',
-                '}',
-                '',
-            ]),
-            'utf-8'
-        ],
-        [
-            './README.MD',
-            multiline([
-                '# qavajs',
-                '## Docs',
-                'https://qavajs.github.io/docs/intro',
-                '## Install Modules',
-                '```bash',
-                'npm install',
-                '```',
-                '## Execute Tests',
-                '```bash',
-                'npx qavajs run --config config.js',
-                '```',
-                '## Project Structure',
-                '- [config](./config.js) - main config',
-                '- [features](./features) - test cases',
-                '- [memory](./memory) - test data',
-                '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
-                '- [report](./report) - reports',
-                ''
-            ]),
-            'utf-8'
-        ],
-    ]);
-    expect(vi.mocked(execSync).mock.calls).toEqual([
-        [
-            'npm install ' + [
-                '@cucumber/cucumber',
-                '@qavajs/core@2',
-                '@qavajs/steps-memory@2',
-                '@qavajs/template'
             ].join(' '),
             {
                 cwd: process.cwd(),
@@ -278,7 +191,6 @@ test('wdio install', async () => {
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
                 '    require: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-wdio/index.js","step_definition/*.js"],',
-                '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
                 '    pageObject: new App(),',
@@ -393,7 +305,6 @@ test('wdio with html formatter install', async () => {
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
                 '    require: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-wdio/index.js","step_definition/*.js"],',
-                '    requireModule: [],',
                 '    format: [["@qavajs/html-formatter","report/report.html"]],',
                 '    memory: new Memory(),',
                 '    pageObject: new App(),',
@@ -509,7 +420,6 @@ test('wdio with console formatter install', async () => {
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
                 '    require: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-wdio/index.js","step_definition/*.js"],',
-                '    requireModule: [],',
                 '    format: ["@qavajs/console-formatter"],',
                 '    memory: new Memory(),',
                 '    pageObject: new App(),',
@@ -625,7 +535,6 @@ test('playwright install', async () => {
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
                 '    require: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-playwright/index.js","step_definition/*.js"],',
-                '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
                 '    pageObject: new App(),',
@@ -694,8 +603,6 @@ test('wdio and sql install', async () => {
     vi.mocked(select).mockResolvedValueOnce('CommonJS');
     vi.mocked(checkbox)
         .mockResolvedValueOnce(['wdio', 'sql'])
-        .mockResolvedValueOnce([])
-        .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await install();
     expect(vi.mocked(ensureDir).mock.calls).toEqual([
@@ -740,7 +647,6 @@ test('wdio and sql install', async () => {
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
                 '    require: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-wdio/index.js","node_modules/@qavajs/steps-sql/index.js","step_definition/*.js"],',
-                '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
                 '    pageObject: new App(),',
@@ -810,8 +716,6 @@ test('package not found', async () => {
     vi.mocked(select).mockResolvedValueOnce('CommonJS');
     vi.mocked(checkbox)
         .mockResolvedValueOnce(['notFound'])
-        .mockResolvedValueOnce([])
-        .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await expect(install).rejects.toThrow('notFound module is not found');
 });
@@ -820,8 +724,6 @@ test('both wdio and playwright selected', async () => {
     vi.mocked(select).mockResolvedValueOnce('CommonJS');
     vi.mocked(checkbox)
         .mockResolvedValueOnce(['wdio', 'playwright'])
-        .mockResolvedValueOnce([])
-        .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await expect(install).rejects.toThrow('Please select only one browser driver');
 });
@@ -831,8 +733,6 @@ test('wdio with console formatter install es modules', async () => {
     vi.mocked(checkbox)
         .mockResolvedValueOnce(['wdio'])
         .mockResolvedValueOnce(['console'])
-        .mockResolvedValueOnce(['template'])
-        .mockResolvedValueOnce([]);
     await install();
     expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
@@ -840,7 +740,6 @@ test('wdio with console formatter install es modules', async () => {
         ['./report'],
         ['./step_definition'],
         ['./page_object'],
-        ['./templates']
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -876,7 +775,6 @@ test('wdio with console formatter install es modules', async () => {
                 'export default {',
                 '  paths: ["features/**/*.feature"],',
                 '  import: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-wdio/index.js","step_definition/*.js"],',
-                '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
                 '  pageObject: new App(),',
@@ -885,7 +783,6 @@ test('wdio with console formatter install es modules', async () => {
                 '      browserName: "chrome"',
                 '    }',
                 '  },',
-                '  templates: ["templates/*.feature"],',
                 '}',
                 ''
             ]),
@@ -933,8 +830,7 @@ test('wdio with console formatter install es modules', async () => {
                 '@qavajs/core@2',
                 '@qavajs/steps-memory@2',
                 '@qavajs/steps-wdio@2',
-                '@qavajs/console-formatter',
-                '@qavajs/template'
+                '@qavajs/console-formatter'
             ].join(' '),
             {
                 cwd: process.cwd(),
@@ -947,17 +843,14 @@ test('wdio with console formatter install typescript', async () => {
     vi.mocked(select).mockResolvedValueOnce('Typescript');
     vi.mocked(checkbox)
         .mockResolvedValueOnce(['wdio'])
-        .mockResolvedValueOnce(['console'])
-        .mockResolvedValueOnce(['template'])
-        .mockResolvedValueOnce([]);
+        .mockResolvedValueOnce(['console']);
     await install();
     expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition'],
-        ['./page_object'],
-        ['./templates']
+        ['./page_object']
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -1012,7 +905,6 @@ test('wdio with console formatter install typescript', async () => {
                 'export default {',
                 '  paths: ["features/**/*.feature"],',
                 '  require: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-wdio/index.js","step_definition/*.ts"],',
-                '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
                 '  pageObject: new App(),',
@@ -1021,7 +913,6 @@ test('wdio with console formatter install typescript', async () => {
                 '      browserName: "chrome"',
                 '    }',
                 '  },',
-                '  templates: ["templates/*.feature"],',
                 '}',
                 ''
             ]),
@@ -1071,8 +962,7 @@ test('wdio with console formatter install typescript', async () => {
                 'typescript',
                 '@qavajs/steps-memory@2',
                 '@qavajs/steps-wdio@2',
-                '@qavajs/console-formatter',
-                '@qavajs/template'
+                '@qavajs/console-formatter'
             ].join(' '),
             {
                 cwd: process.cwd(),
@@ -1085,9 +975,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
     vi.mocked(select).mockResolvedValueOnce('Typescript');
     vi.mocked(checkbox)
         .mockResolvedValueOnce(['wdio'])
-        .mockResolvedValueOnce(['console'])
-        .mockResolvedValueOnce(['template'])
-        .mockResolvedValueOnce(['wdio service adapter']);
+        .mockResolvedValueOnce(['console']);
     await install();
     expect(vi.mocked(ensureDir).mock.calls).toEqual([
         ['./features'],
@@ -1095,7 +983,6 @@ test('wdio with console formatter and wdio service adapter install typescript', 
         ['./report'],
         ['./step_definition'],
         ['./page_object'],
-        ['./templates']
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -1150,7 +1037,6 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 'export default {',
                 '  paths: ["features/**/*.feature"],',
                 '  require: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-wdio/index.js","step_definition/*.ts"],',
-                '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
                 '  pageObject: new App(),',
@@ -1159,7 +1045,6 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '      browserName: "chrome"',
                 '    }',
                 '  },',
-                '  templates: ["templates/*.feature"],',
                 '}',
                 ''
             ]),
@@ -1209,9 +1094,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 'typescript',
                 '@qavajs/steps-memory@2',
                 '@qavajs/steps-wdio@2',
-                '@qavajs/console-formatter',
-                '@qavajs/template',
-                '@qavajs/wdio-service-adapter'
+                '@qavajs/console-formatter'
             ].join(' '),
             {
                 cwd: process.cwd(),
@@ -1224,8 +1107,6 @@ test('api install', async () => {
     vi.mocked(select).mockResolvedValueOnce('CommonJS');
     vi.mocked(checkbox)
         .mockResolvedValueOnce(['api'])
-        .mockResolvedValueOnce([])
-        .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await install();
     expect(vi.mocked(ensureDir).mock.calls).toEqual([
@@ -1259,7 +1140,6 @@ test('api install', async () => {
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
                 '    require: ["node_modules/@qavajs/steps-memory/index.js","node_modules/@qavajs/steps-api/index.js","step_definition/*.js"],',
-                '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
                 '  }',

@@ -7,7 +7,6 @@
 <%-`  default: {`%>
 <%-`    paths: ["features/**/*.feature"],`%>
 <%-`    require: `%><%-steps%>,
-<%-`    requireModule: `%><%-modules%>,
 <%-`    format: `%><%-format%>,
 <%-`    memory: new Memory()`%>,
 <% if (isPlaywrightIncluded || isWdioIncluded) {%>
@@ -17,9 +16,6 @@
 <%-`        browserName: `%><% if (isWdioIncluded) {%><%-'"chrome"'%><%} else {%><%-'"chromium"'%><%}%>
 <%-`      }`%>
 <%-`    },`%>
-<% }%>
-<% if (isTemplateIncluded) {%>
-<%-`    templates: ["templates/*.feature"]`%>,
 <% }%>
 <%-`  }`%>
 <%-`}`%>
@@ -32,7 +28,6 @@
 <%-`export default {`%>
 <%-`  paths: ["features/**/*.feature"],`%>
 <% if (moduleSystem === 'ES Modules') {%><%-`  import: `%><% } else { %><%-`  require: `%><% }-%><%-steps%>,
-<%-`  requireModule: `%><%-modules%>,
 <%-`  format: `%><%-format%>,
 <%-`  memory: new Memory()`%>,
 <% if (isPlaywrightIncluded || isWdioIncluded) {%>
@@ -42,9 +37,6 @@
 <%-`      browserName: `%><% if (isWdioIncluded) {%><%-'"chrome"'%><%} else {%><%-'"chromium"'%><%}%>
 <%-`    }`%>
 <%-`  },`%>
-<% }%>
-<% if (isTemplateIncluded) {%>
-<%-`  templates: ["templates/*.feature"]`%>,
 <% }%>
 <%-`}`%>
 <% }%>

@@ -5,8 +5,13 @@ All notable changes to the "@qavajs/create" will be documented in this file.
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 :rocket: - new feature
+
 :beetle: - bugfix
+
 :x: - deprecation
+
+## [2.2.0]
+- :x: removed template and soft assertion
 
 ## [2.1.0]
 - :rocket: removed yarn-install dependency
