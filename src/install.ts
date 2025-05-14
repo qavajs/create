@@ -8,7 +8,7 @@ function installModules({ deps, cwd }: { deps: any[], cwd: string }) {
     execSync(`npm install ${modules}`, { cwd });
 }
 
-import deps, { steps, format, modules, additionalModules, ModuleDefinition } from './deps';
+import deps, { steps, format, ModuleDefinition } from './deps';
 import { compile } from 'ejs';
 import { select, checkbox } from '@inquirer/prompts';
 
@@ -51,21 +51,11 @@ export default async function install(): Promise<void> {
         formats: await checkbox({
             message: 'select formatters (reporters) to install:',
             choices: packs(format)
-        }),
-        modules: await checkbox({
-            message: 'select modules to install:',
-            choices: packs(modules)
-        }),
-        additionalModules: await checkbox({
-            message: 'select additional modules to install:',
-            choices: packs(additionalModules)
         })
     };
 
     const stepsPackages: Array<string> = ['@qavajs/steps-memory@2', ...packages(answers.steps, steps)];
     const formatPackages: Array<string> = packages(answers.formats, format);
-    const modulePackages: Array<string> = packages(answers.modules, modules);
-    const additionalPackages: Array<string> = packages(answers.additionalModules, additionalModules);
 
     const isTypescript = answers.moduleSystem === 'Typescript';
     const isWdioIncluded = answers.steps.includes('wdio');
@@ -76,7 +66,6 @@ export default async function install(): Promise<void> {
         throw new Error('Please select only one browser driver');
     }
     const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded;
-    const isTemplateIncluded: boolean = answers.modules.includes('template');
 
     // add gitignore
     const gitignoreTemplate = await readFile(
@@ -112,7 +101,6 @@ export default async function install(): Promise<void> {
     const config = configEjs({
         steps: JSON.stringify([...stepsPackagesGlobs, stepDefinitionGlob]),
         moduleSystem: answers.moduleSystem,
-        modules: JSON.stringify(modulePackages),
         format: JSON.stringify(
             format
                 .filter(p => formatPackages.includes(p.packageName))
@@ -120,7 +108,6 @@ export default async function install(): Promise<void> {
         ),
         isWdioIncluded,
         isPlaywrightIncluded,
-        isTemplateIncluded
     });
 
     await ensureDir('./features');
@@ -165,10 +152,6 @@ export default async function install(): Promise<void> {
         await writeFile('./features/qavajsApi.feature', replaceNewLines(featureFile), 'utf-8');
     }
 
-    if (isTemplateIncluded) {
-        await ensureDir('./templates');
-    }
-
     await writeFile(`config.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(config), 'utf-8');
 
     const memoryTemplate: string = await readFile(
@@ -197,8 +180,6 @@ export default async function install(): Promise<void> {
         ...requiredDeps,
         ...stepsPackages,
         ...formatPackages,
-        ...modulePackages,
-        ...additionalPackages
     ];
     console.log('installing packages...');
     console.log(modulesToInstall);
