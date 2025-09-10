@@ -1,7 +1,7 @@
 {
   "name": "@qavajs/create",
-  "version": "2.2.0",
-  "description": "initializer of @qavajs project",
+  "version": "2.2.1",
+  "description": "@qavajs init",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -10,9 +10,6 @@
   "bin": {
     "create-qavajs": "./index.js"
   },
-  "engines": {
-    "node": ">=18"
-  },
   "keywords": [
     "Testing",
     "QA"
@@ -20,16 +17,16 @@
   "author": "Alexandr Galichenko",
   "license": "MIT",
   "dependencies": {
-    "@inquirer/prompts": "^7.5.1",
+    "@inquirer/prompts": "^7.8.4",
     "ejs": "^3.1.10",
-    "fs-extra": "^11.3.0",
-    "typescript": "^5.8.3"
+    "fs-extra": "^11.3.1",
+    "typescript": "^5.9.2"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.15.18",
-    "@vitest/coverage-v8": "^3.1.3",
-    "vitest": "^3.1.3"
+    "@types/node": "^24.3.1",
+    "@vitest/coverage-v8": "^3.2.4",
+    "vitest": "^3.2.4"
   }
 }
