@@ -10,6 +10,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :x: - deprecation
 
+## [2.2.1]
+- :beetle: fixed readme template
+
 ## [2.2.0]
 - :x: removed template and soft assertion
 

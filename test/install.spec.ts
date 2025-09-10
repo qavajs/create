@@ -106,7 +106,7 @@ test('minimum install', async () => {
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -120,7 +120,7 @@ test('minimum install', async () => {
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
@@ -219,7 +219,7 @@ test('wdio install', async () => {
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -233,7 +233,7 @@ test('wdio install', async () => {
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
@@ -333,7 +333,7 @@ test('wdio with html formatter install', async () => {
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -347,7 +347,7 @@ test('wdio with html formatter install', async () => {
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
@@ -448,7 +448,7 @@ test('wdio with console formatter install', async () => {
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -462,7 +462,7 @@ test('wdio with console formatter install', async () => {
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
@@ -563,7 +563,7 @@ test('playwright install', async () => {
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -577,7 +577,7 @@ test('playwright install', async () => {
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
@@ -675,7 +675,7 @@ test('wdio and sql install', async () => {
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -689,7 +689,7 @@ test('wdio and sql install', async () => {
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
@@ -802,7 +802,7 @@ test('wdio with console formatter install es modules', async () => {
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -816,7 +816,7 @@ test('wdio with console formatter install es modules', async () => {
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
@@ -932,7 +932,7 @@ test('wdio with console formatter install typescript', async () => {
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -946,7 +946,7 @@ test('wdio with console formatter install typescript', async () => {
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
@@ -1064,7 +1064,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -1078,7 +1078,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
@@ -1162,7 +1162,7 @@ test('api install', async () => {
             multiline([
                 '# qavajs',
                 '## Docs',
-                'https://qavajs.github.io/docs/intro',
+                'https://qavajs.github.io/',
                 '## Install Modules',
                 '```bash',
                 'npm install',
@@ -1176,7 +1176,7 @@ test('api install', async () => {
                 '- [features](./features) - test cases',
                 '- [memory](./memory) - test data',
                 '- [page_object](./page_object) - page objects',
-                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [step_definition](./step_definition) - custom step definitions',
                 '- [report](./report) - reports',
                 ''
             ]),
