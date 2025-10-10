@@ -10,6 +10,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :x: - deprecation
 
+## [2.2.2]
+- :beetle: fixed issue with mandatory ESM js extension
+
 ## [2.2.1]
 - :beetle: fixed readme template
 

@@ -1,5 +1,5 @@
 <% if (moduleSystem === 'ES Modules' || moduleSystem === 'Typescript') {-%>
-<%-'import { locator } from "'-%><%-poModule%>";
+<%-'import { locator } from "'-%><%-poModule%><% if (moduleSystem === 'ES Modules') {-%>.js<%}%>";
 <%} else {-%>
 <%-'const { locator } = require('%>"<%-poModule%>");
 <%}%>
