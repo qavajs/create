@@ -758,7 +758,7 @@ test('wdio with console formatter install es modules', async () => {
         [
             './page_object/index.js',
             multiline([
-                'import { locator } from "@qavajs/steps-wdio/po";',
+                'import { locator } from "@qavajs/steps-wdio/po.js";',
                 'export default class App {',
                 '  Body = locator("body");',
                 '  GetStartedButton = locator("a.button[href=\'/docs/intro\']");',
