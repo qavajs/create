@@ -10,6 +10,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :x: - deprecation
 
+## [2.3.0]
+- :rocket: removed ejs and fs-extra dependencies
+
 ## [2.2.2]
 - :beetle: fixed issue with mandatory ESM js extension
 
