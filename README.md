@@ -13,3 +13,7 @@ npm init @qavajs
 ```
 npm run test
 ```
+
+## Dependencies
+
+- [`@inquirer/prompts`](https://github.com/SBoudrias/Inquirer.js) — interactive CLI prompts

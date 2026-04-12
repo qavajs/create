@@ -1,5 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
-import { ensureDir } from 'fs-extra';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { execSync } from 'node:child_process';
 
@@ -9,7 +8,6 @@ function installModules({ deps, cwd }: { deps: any[], cwd: string }) {
 }
 
 import deps, { steps, format, ModuleDefinition } from './deps';
-import { compile } from 'ejs';
 import { select, checkbox } from '@inquirer/prompts';
 
 const packs = (deps: Array<ModuleDefinition>) => deps.map(({module}) => ({ value: module }));
@@ -30,7 +28,134 @@ const requireGlob = (moduleList: Array<string>, packageMap: Array<ModuleDefiniti
         }) as Array<string>
 }
 
-const replaceNewLines = (text: string) => text.replace(/(\r?\n\r?)+/g, '\n');
+function generateConfig({ steps, moduleSystem, format, isWdioIncluded, isPlaywrightIncluded }: {
+    steps: string, moduleSystem: string, format: string, isWdioIncluded: boolean, isPlaywrightIncluded: boolean
+}): string {
+    const isESM = moduleSystem === 'ES Modules';
+    const isPOIncluded = isWdioIncluded || isPlaywrightIncluded;
+    const browserName = isWdioIncluded ? '"chrome"' : '"chromium"';
+
+    if (moduleSystem === 'CommonJS') {
+        const lines: string[] = [
+            `const Memory = require("./memory");`,
+            ...(isPOIncluded ? [`const App = require("./page_object");`] : []),
+            `module.exports = {`,
+            `  default: {`,
+            `    paths: ["features/**/*.feature"],`,
+            `    require: ${steps},`,
+            `    format: ${format},`,
+            `    memory: new Memory(),`,
+            ...(isPOIncluded ? [
+                `    pageObject: new App(),`,
+                `    browser: {`,
+                `      capabilities: {`,
+                `        browserName: ${browserName}`,
+                `      }`,
+                `    },`,
+            ] : []),
+            `  }`,
+            `}`,
+        ];
+        return lines.join('\n') + '\n';
+    } else {
+        const ext = isESM ? '/index.js' : '';
+        const importKey = isESM ? 'import' : 'require';
+        const lines: string[] = [
+            `import Memory from "./memory${ext}";`,
+            ...(isPOIncluded ? [`import App from "./page_object${ext}";`] : []),
+            `export default {`,
+            `  paths: ["features/**/*.feature"],`,
+            `  ${importKey}: ${steps},`,
+            `  format: ${format},`,
+            `  memory: new Memory(),`,
+            ...(isPOIncluded ? [
+                `  pageObject: new App(),`,
+                `  browser: {`,
+                `    capabilities: {`,
+                `      browserName: ${browserName}`,
+                `    }`,
+                `  },`,
+            ] : []),
+            `}`,
+        ];
+        return lines.join('\n') + '\n';
+    }
+}
+
+function generateMemory(moduleSystem: string): string {
+    const prefix = (moduleSystem === 'ES Modules' || moduleSystem === 'Typescript') ? 'export default ' : 'module.exports = ';
+    return `${prefix}class Constants {\n}\n`;
+}
+
+function generatePo(moduleSystem: string, poModule: string): string {
+    const isESM = moduleSystem === 'ES Modules';
+    const isESMorTS = isESM || moduleSystem === 'Typescript';
+    const ext = isESM ? '.js' : '';
+
+    if (isESMorTS) {
+        return [
+            `import { locator } from "${poModule}${ext}";`,
+            `export default class App {`,
+            `  Body = locator("body");`,
+            `  GetStartedButton = locator("a.button[href='/docs/intro']");`,
+            `}`,
+            '',
+        ].join('\n');
+    } else {
+        return [
+            `const { locator } = require("${poModule}");`,
+            `module.exports = class App {`,
+            `  Body = locator("body");`,
+            `  GetStartedButton = locator("a.button[href='/docs/intro']");`,
+            `}`,
+            '',
+        ].join('\n');
+    }
+}
+
+function generateReadme(moduleSystem: string): string {
+    const ext = moduleSystem === 'Typescript' ? 'ts' : 'js';
+    return [
+        `# qavajs`,
+        `## Docs`,
+        `https://qavajs.github.io/`,
+        `## Install Modules`,
+        '```bash',
+        `npm install`,
+        '```',
+        `## Execute Tests`,
+        '```bash',
+        `npx qavajs run --config config.${ext}`,
+        '```',
+        `## Project Structure`,
+        `- [config](./config.${ext}) - main config`,
+        `- [features](./features) - test cases`,
+        `- [memory](./memory) - test data`,
+        `- [page_object](./page_object) - page objects`,
+        `- [step_definition](./step_definition) - custom step definitions`,
+        `- [report](./report) - reports`,
+        '',
+    ].join('\n');
+}
+
+const featureTemplate = [
+    `Feature: qavajs framework`,
+    `  Scenario: Open qavajs docs`,
+    `    Given I open 'https://qavajs.github.io/' url`,
+    `    Then I expect text of 'Body' to contain 'qavajs'`,
+    '',
+].join('\n');
+
+const featureApiTemplate = [
+    `Feature: qavajs framework`,
+    `  Scenario: Request qavajs site`,
+    `    When I create 'GET' request 'request'`,
+    `    And I add 'https://qavajs.github.io/' url to '$request'`,
+    `    And I send '$request' request and save response as 'response'`,
+    `    And I parse '$response' body as text`,
+    `    Then I expect '$response.payload' contains '@qavajs'`,
+    '',
+].join('\n');
 
 export default async function install(): Promise<void> {
     const requiredDeps = [...deps];
@@ -91,14 +216,10 @@ export default async function install(): Promise<void> {
         );
         await writeFile(`./tsconfig.json`, tsconfig, 'utf-8');
     }
-    const configTemplate: string = await readFile(
-        resolve(__dirname, '../templates/config.ejs'),
-        'utf-8'
-    );
-    const configEjs = compile(configTemplate);
+
     const stepDefinitionGlob = `step_definition/*.${isTypescript ? 'ts' : 'js'}`;
     const stepsPackagesGlobs = ['node_modules/@qavajs/steps-memory/index.js', ...requireGlob(answers.steps, steps)];
-    const config = configEjs({
+    const config = generateConfig({
         steps: JSON.stringify([...stepsPackagesGlobs, stepDefinitionGlob]),
         moduleSystem: answers.moduleSystem,
         format: JSON.stringify(
@@ -110,71 +231,36 @@ export default async function install(): Promise<void> {
         isPlaywrightIncluded,
     });
 
-    await ensureDir('./features');
-    await ensureDir('./memory');
-    await ensureDir('./report');
-    await ensureDir('./step_definition');
+    await mkdir('./features', { recursive: true });
+    await mkdir('./memory', { recursive: true });
+    await mkdir('./report', { recursive: true });
+    await mkdir('./step_definition', { recursive: true });
 
     if (isPOIncluded) {
         let poModule: string | undefined;
         if (isWdioIncluded) poModule = '@qavajs/steps-wdio/po';
         if (isPlaywrightIncluded) poModule = '@qavajs/steps-playwright/po';
         if (!poModule) throw new Error('No PO module');
-        const featureTemplate: string = await readFile(
-            resolve(__dirname, '../templates/feature.ejs'),
-            'utf-8'
-        );
-        const featureEjs = compile(featureTemplate);
-        const featureFile = featureEjs();
-        await writeFile('./features/qavajs.feature', replaceNewLines(featureFile), 'utf-8');
+
+        await writeFile('./features/qavajs.feature', featureTemplate, 'utf-8');
 
         //create page object folder
-        await ensureDir('./page_object');
-        const poTemplate: string = await readFile(
-            resolve(__dirname, '../templates/po.ejs'),
-            'utf-8'
-        );
-        const poEjs = compile(poTemplate);
-        const poFile = poEjs({
-            moduleSystem: answers.moduleSystem,
-            poModule
-        })
-        await writeFile(`./page_object/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(poFile), 'utf-8');
+        await mkdir('./page_object', { recursive: true });
+        const poFile = generatePo(answers.moduleSystem, poModule);
+        await writeFile(`./page_object/index.${isTypescript ? 'ts' : 'js'}`, poFile, 'utf-8');
     }
 
     if (isApiIncluded) {
-        const featureTemplate: string = await readFile(
-            resolve(__dirname, '../templates/featureApi.ejs'),
-            'utf-8'
-        );
-        const featureEjs = compile(featureTemplate);
-        const featureFile = featureEjs();
-        await writeFile('./features/qavajsApi.feature', replaceNewLines(featureFile), 'utf-8');
+        await writeFile('./features/qavajsApi.feature', featureApiTemplate, 'utf-8');
     }
 
-    await writeFile(`config.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(config), 'utf-8');
+    await writeFile(`config.${isTypescript ? 'ts' : 'js'}`, config, 'utf-8');
 
-    const memoryTemplate: string = await readFile(
-        resolve(__dirname, '../templates/memory.ejs'),
-        'utf-8'
-    );
-    const memoryEjs = compile(memoryTemplate);
-    const memoryFile = memoryEjs({
-        moduleSystem: answers.moduleSystem
-    })
+    const memoryFile = generateMemory(answers.moduleSystem);
+    await writeFile(`./memory/index.${isTypescript ? 'ts' : 'js'}`, memoryFile, 'utf-8');
 
-    await writeFile(`./memory/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(memoryFile), 'utf-8');
-
-    const readmeTemplate: string = await readFile(
-        resolve(__dirname, '../templates/readme.ejs'),
-        'utf-8'
-    );
-    const readmeEjs = compile(readmeTemplate);
-    const readmeFile = readmeEjs({
-        moduleSystem: answers.moduleSystem
-    })
-
-    await writeFile(`./README.MD`, replaceNewLines(readmeFile), 'utf-8');
+    const readmeFile = generateReadme(answers.moduleSystem);
+    await writeFile(`./README.MD`, readmeFile, 'utf-8');
 
     const modulesToInstall = [
         ...requiredDeps,

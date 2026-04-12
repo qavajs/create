@@ -1,7 +1,6 @@
 import {test, beforeEach, vi, expect} from 'vitest';
 import install from '../src/install';
-import {ensureDir} from 'fs-extra';
-import {writeFile} from 'node:fs/promises';
+import {writeFile, mkdir} from 'node:fs/promises';
 import {select, checkbox} from '@inquirer/prompts';
 import {execSync} from 'node:child_process';
 
@@ -16,13 +15,8 @@ vi.mock('node:fs/promises', async (importOriginal) => {
     const mod = await importOriginal<typeof import('node:fs/promises')>();
     return {
         writeFile: vi.fn(),
-        readFile: mod.readFile
-    }
-});
-
-vi.mock('fs-extra', () => {
-    return {
-        ensureDir: vi.fn()
+        readFile: mod.readFile,
+        mkdir: vi.fn()
     }
 });
 
@@ -67,11 +61,11 @@ test('minimum install', async () => {
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition']
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }]
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -149,12 +143,12 @@ test('wdio install', async () => {
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition'],
-        ['./page_object']
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }],
+        ['./page_object', { recursive: true }]
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -263,12 +257,12 @@ test('wdio with html formatter install', async () => {
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition'],
-        ['./page_object']
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }],
+        ['./page_object', { recursive: true }]
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -378,12 +372,12 @@ test('wdio with console formatter install', async () => {
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition'],
-        ['./page_object']
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }],
+        ['./page_object', { recursive: true }]
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -493,12 +487,12 @@ test('playwright install', async () => {
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce([]);
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition'],
-        ['./page_object']
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }],
+        ['./page_object', { recursive: true }]
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -605,12 +599,12 @@ test('wdio and sql install', async () => {
         .mockResolvedValueOnce(['wdio', 'sql'])
         .mockResolvedValueOnce([]);
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition'],
-        ['./page_object']
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }],
+        ['./page_object', { recursive: true }]
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -734,12 +728,12 @@ test('wdio with console formatter install es modules', async () => {
         .mockResolvedValueOnce(['wdio'])
         .mockResolvedValueOnce(['console'])
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition'],
-        ['./page_object'],
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }],
+        ['./page_object', { recursive: true }],
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -845,12 +839,12 @@ test('wdio with console formatter install typescript', async () => {
         .mockResolvedValueOnce(['wdio'])
         .mockResolvedValueOnce(['console']);
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition'],
-        ['./page_object']
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }],
+        ['./page_object', { recursive: true }]
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -977,12 +971,12 @@ test('wdio with console formatter and wdio service adapter install typescript', 
         .mockResolvedValueOnce(['wdio'])
         .mockResolvedValueOnce(['console']);
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition'],
-        ['./page_object'],
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }],
+        ['./page_object', { recursive: true }],
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
@@ -1109,11 +1103,11 @@ test('api install', async () => {
         .mockResolvedValueOnce(['api'])
         .mockResolvedValueOnce([]);
     await install();
-    expect(vi.mocked(ensureDir).mock.calls).toEqual([
-        ['./features'],
-        ['./memory'],
-        ['./report'],
-        ['./step_definition']
+    expect(vi.mocked(mkdir).mock.calls).toEqual([
+        ['./features', { recursive: true }],
+        ['./memory', { recursive: true }],
+        ['./report', { recursive: true }],
+        ['./step_definition', { recursive: true }]
     ]);
     expect(vi.mocked(writeFile).mock.calls).toEqual([
         gitignore,
